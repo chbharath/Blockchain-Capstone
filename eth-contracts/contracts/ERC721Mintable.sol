@@ -51,7 +51,7 @@ contract Pausable is Ownable{
     bool private _paused;
     function pauseContract() public onlyOwner{
          _paused = true;
-         emit Paused(masg.sender);
+         emit Paused(msg.sender);
     }
 
     constructor() internal {
@@ -65,7 +65,7 @@ contract Pausable is Ownable{
     }
 
     modifier paused(){
-          require(_pause == true, "Contract should be paused");
+          require(_paused == true, "Contract should be paused");
           _;
     }
  
@@ -152,7 +152,7 @@ contract ERC721 is Pausable, ERC165 {
     function balanceOf(address owner) public view returns (uint256) {
         // TODO return the token balance of given address
         // TIP: remember the functions to use for Counters. you can refresh yourself with the link above
-        return _ownedTokensCount[owner];
+        return _ownedTokensCount[owner].current();
     }
 
     function ownerOf(uint256 tokenId) public view returns (address) {
@@ -167,7 +167,7 @@ contract ERC721 is Pausable, ERC165 {
         require(to != ownerOf(tokenId), "Given address cannot be the owner of the token");
 
         // TODO require the msg sender to be the owner of the contract or isApprovedForAll() to be true
-        require(msg.sender == ownerOf(tokenId) || isApprovedForAll(ownerOf(tokenId), msg.sender)), "msg sender to be the owner of the contract or isApprovedForAll() to be true");
+        require(msg.sender == ownerOf(tokenId) || isApprovedForAll(ownerOf(tokenId), msg.sender), "msg sender to be the owner of the contract or isApprovedForAll() to be true");
         
         // TODO add 'to' address to token approvals
         _tokenApprovals[tokenId] = to;
@@ -496,20 +496,20 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
         // TODO: set instance var values
         _name = name;
         _symbol = symbol;
-        _basetokenURI = basetokenURI;
+        _baseTokenURI = baseTokenURI;
         _registerInterface(_INTERFACE_ID_ERC721_METADATA);
     }
 
     // TODO: create external getter functions for name, symbol, and baseTokenURI
-    function getTokenName() external view returns(string){
+    function getTokenName() external view returns(string memory){
         return _name;
     }
 
-    function getTokenSymbol() external view returns(string){
+    function getTokenSymbol() external view returns(string memory){
         return _symbol;
     }
 
-    function getTokenURI() external view returns(string){
+    function getTokenURI() external view returns(string memory){
         return _baseTokenURI;
     }
 
@@ -525,9 +525,9 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     // TIP #2: you can also use uint2str() to convert a uint to a string
         // see https://github.com/oraclize/ethereum-api/blob/master/oraclizeAPI_0.5.sol for strConcat()
     // require the token exists before setting
-    function setTokenURI(uint256 tokenId){
+    function setTokenURI(uint256 tokenId) public returns(string memory) {
         require(_exists(tokenId));
-        string tokenIdS = uint2str(tokenId);
+        string memory tokenIdS = uint2str(tokenId);
         return strConcat(_baseTokenURI, tokenIdS);
     }
 }
@@ -540,17 +540,17 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 //      -takes in a 'to' address, tokenId, and tokenURI as parameters
 //      -returns a true boolean upon completion of the function
 //      -calls the superclass mint and setTokenURI functions
-contract CustomERC721Token is ERC721Metadata {
-    _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
-    _name = "RithvikCoin";
-    _symbol = 'RTH";
+contract RithvikToken is ERC721Metadata {
+    string private _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
+    string private _name = "RithvikCoin";
+    string private _symbol = "RTH";
 
 
     function mint
                 (
                     address to,
                     uint256 tokenId,
-                    string tokenURI
+                    string memory tokenURI
                 )
                 public
                 onlyOwner
