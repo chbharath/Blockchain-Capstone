@@ -1,16 +1,18 @@
 pragma solidity >=0.4.21 <0.6.5;
 
 // TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
-import "./Verifier.sol";
+//import "./verifier.sol";
+import "../../zokrates/code/square/verifier.sol";
 import "./ERC721Mintable.sol";
 
 // TODO define another contract named SolnSquareVerifier that inherits from your ERC721Mintable class
-contract SolnSquareVerifier is ERC721Mintable {
-    Verifier verifierContract;
+contract SolnSquareVerifier is RithvikToken {
+    Verifier squareVerifier;
 
     constructor(
         address _address, string memory _name, string memory _symbol
-    ) RithvikToken(_name, _symbol) public 
+    ) RithvikToken() public
+    //) RithvikToken(_name, _symbol) public  
     {
         squareVerifier = Verifier(_address);
     }
@@ -21,6 +23,7 @@ struct Solution{
     bool _minted;
 }
 
+uint256 solutionCounter = 1;
 // TODO define an array of the above struct
 //mapping(bytes32 => Solution) private solutions;
 
@@ -40,14 +43,15 @@ function addSolution(
 ) public {
     bytes32 key = keccak256(abi.encodePacked(a, b, c, input));
 
-    require(solutionSubmitted[key].index == 0, "Solution already exists");
-    solutionSubmitted[key] = Solution({
-        index: solutionCounter,
-        senderAddress: msg.sender
+    require(solutionsSubmitted[key]._index == 0, "Solution already exists");
+    solutionsSubmitted[key] = Solution({
+        _index: solutionCounter,
+        _address: msg.sender,
+        _minted: true
     });
     solutionCounter += 1;
 
-    emit SolutionAddress(key, msg.sender);
+    emit solutionAdded(key, msg.sender);
 }
 
 
@@ -62,9 +66,9 @@ function mintVerified(
     uint256[2] memory c,
     uint256[2] memory input
 ) public {
-        require(verifierContract.verifyTx(a, b, c, input), "Incorrect Solution");
+        require(squareVerifier.verifyTx(a, b, c, input), "Incorrect Solution");
         addSolution(a, b, c, input);
-        super.mint(to, tokenId);
+        super._mint(to, tokenId);
 }
 
 }

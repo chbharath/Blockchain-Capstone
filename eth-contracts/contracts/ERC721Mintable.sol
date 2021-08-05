@@ -5,6 +5,7 @@ import 'openzeppelin-solidity/contracts/drafts/Counters.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 import "./Oraclize.sol";
+//import "./SolnSquareVerifier.sol";
 
 contract Ownable {
     //  TODO's
@@ -542,7 +543,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 //      -calls the superclass mint and setTokenURI functions
 contract RithvikToken is ERC721Metadata {
     string private _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
-    string private _name = "RithvikCoin";
+    string private _name = "RithvikToken";
     string private _symbol = "RTH";
 
 

@@ -7,7 +7,7 @@ contract('TestSolnSquareVerifier', accounts => {
 
     const account_one = accounts[0];
     const name = 'RithvikToken';
-    const symbol = 'RTK';
+    const symbol = 'RTH';
     const baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
 
 
