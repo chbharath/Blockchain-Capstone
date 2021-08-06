@@ -11,7 +11,10 @@ contract Ownable {
     //  TODO's
     //  1) create a private '_owner' variable of type address with a public getter function
     address private _owner;
-
+    function getOwner() public view returns (address) {
+        return _owner;
+    }
+    
     event changeOwner(address newOwner);
     //  2) create an internal constructor that sets the _owner var to the creater of the contract
     constructor 
@@ -529,7 +532,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     function setTokenURI(uint256 tokenId) public returns(string memory) {
         require(_exists(tokenId));
         string memory tokenIdS = uint2str(tokenId);
-        return strConcat(_baseTokenURI, tokenIdS);
+        _tokenURIs[tokenId] = strConcat(_baseTokenURI, tokenIdS);
     }
 }
 
@@ -541,24 +544,25 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 //      -takes in a 'to' address, tokenId, and tokenURI as parameters
 //      -returns a true boolean upon completion of the function
 //      -calls the superclass mint and setTokenURI functions
-contract RithvikToken is ERC721Metadata {
-    string private _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
-    string private _name = "RithvikToken";
-    string private _symbol = "RTH";
-
+contract RithvikToken is ERC721Metadata("RithvikToken", "RTH", "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") {
+    //string private _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
+    //string private _name = "RithvikToken";
+    //string private _symbol = "RTH";
+    constructor() public {}
 
     function mint
                 (
                     address to,
                     uint256 tokenId,
-                    string memory tokenURI
+                    string memory basetokenURI
                 )
                 public
                 onlyOwner
                 returns(bool)
     {
+        //require(msg.sender == _owner, "Only the owner can call this function");
         super._mint(to, tokenId);
-        super.setTokenURI(tokenId);
+        setTokenURI(tokenId);
         return true;
     }
 }
