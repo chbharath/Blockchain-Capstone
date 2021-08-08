@@ -14,7 +14,9 @@
   "author": "pk <pkrasam@gmail.com> (https://ipfs.infura.io/ipfs/QmSXiR9Khm3yo1J67nUopvVBxFJ8YGN2fUGZ34Etr3m92x/)",
   "license": "MIT",
   "devDependencies": {
-    "lite-server": "^2.6.1"
+    "@openzeppelin/test-helpers": "^0.5.12",
+    "lite-server": "^2.6.1",
+    "webpack-cli": "^4.7.2"
   },
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.0.37",
