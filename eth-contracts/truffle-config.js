@@ -24,10 +24,10 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const infuraKey = "b7c3bff7a19a482fb29b8661381615b4";
+const infuraKey = "1bb443da1e5148c6af057b9b82c235b6";
 //const mnemonic = "sadness cross wheat coach cannon tourist degree offer top desert impact predict";
 //const mnemonic ="improve inch police material tissue exhaust degree action rail angry napkin toy";
-const mnemonic = "duck make whisper great glad often impose chest average shoulder spot inside"
+const mnemonic = "skin excite picture funny lesson awesome powder valid diagram device neutral estate"
 //
 module.exports = {
   /**
@@ -57,7 +57,7 @@ module.exports = {
       provider: () => new HDWalletProvider(mnemonic, `https://rinkeby.infura.io/v3/${infuraKey}`, 0, 50),
         network_id: 4,       // rinkeby's id
         gas: 4500000,        // rinkeby has a lower block limit than mainnet
-        gasPrice: 21000000000
+        gasPrice: 30000000000,
     },
     // Another network with more advanced options...
     // advanced: {

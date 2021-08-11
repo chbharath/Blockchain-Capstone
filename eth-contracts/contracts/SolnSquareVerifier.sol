@@ -11,7 +11,7 @@ contract SolnSquareVerifier is RithvikToken {
 
     constructor(
         address _address, string memory _name, string memory _symbol
-    ) RithvikToken() public
+    ) RithvikToken(_name, _symbol) public
     //) RithvikToken(_name, _symbol) public  
     {
         squareVerifier = Verifier(_address);

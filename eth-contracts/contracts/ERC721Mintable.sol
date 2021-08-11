@@ -505,15 +505,15 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     }
 
     // TODO: create external getter functions for name, symbol, and baseTokenURI
-    function getTokenName() external view returns(string memory){
+    function name() external view returns(string memory){
         return _name;
     }
 
-    function getTokenSymbol() external view returns(string memory){
+    function symbol() external view returns(string memory){
         return _symbol;
     }
 
-    function getTokenURI() external view returns(string memory){
+    function baseTokenURI() external view returns(string memory){
         return _baseTokenURI;
     }
 
@@ -544,27 +544,44 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
 //      -takes in a 'to' address, tokenId, and tokenURI as parameters
 //      -returns a true boolean upon completion of the function
 //      -calls the superclass mint and setTokenURI functions
-contract RithvikToken is ERC721Metadata("RithvikToken", "RTH", "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") {
-    //string private _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
-    //string private _name = "RithvikToken";
-    //string private _symbol = "RTH";
-    constructor() public {}
+
+//contract RithvikToken is ERC721Metadata("RithvikToken", "RTH", "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/") {
+//    string private _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
+//    constructor() public {}
+
+//    function mint
+//                (
+//                    address to,
+//                    uint256 tokenId
+//                )
+//                public
+//                onlyOwner
+//                returns(bool)
+//    {
+//        super._mint(to, tokenId);
+//        setTokenURI(tokenId);
+//        return true;
+//    }
+//}
+
+contract RithvikToken is ERC721Metadata {
+    string private baseURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
+    constructor(string memory name, string memory symbol) ERC721Metadata(name, symbol, baseURI) public {
+
+    }
 
     function mint
                 (
                     address to,
-                    uint256 tokenId,
-                    string memory basetokenURI
+                    uint256 tokenId
                 )
                 public
                 onlyOwner
                 returns(bool)
     {
-        //require(msg.sender == _owner, "Only the owner can call this function");
         super._mint(to, tokenId);
         setTokenURI(tokenId);
         return true;
     }
 }
-
 
